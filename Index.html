@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniTable • Elvix Development</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-rgb: 99, 102, 241;
+            --primary: rgb(var(--primary-rgb));
+            --accent-rgb: 239, 68, 68;
+            --accent: rgb(var(--accent-rgb));
+            --bg: #030712;
+            --surface: #111827;
+            --surface-light: #1f2937;
+            --card-border: rgba(51, 65, 85, 0.3);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --text-sub: #64748b;
+            --radius-xl: 32px;
+            --radius-md: 20px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background-color: var(--bg); 
+            color: var(--text-main); 
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            -webkit-font-smoothing: antialiased;
+            background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #030712 100%);
+        }
+
+        .app-container { width: 100%; max-width: 600px; animation: fadeIn 0.8s ease-out; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .header {
+            padding: 20px 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--card-border);
+            margin-bottom: 30px;
+        }
+        .logo { font-size: 1.6rem; font-weight: 900; letter-spacing: -1.5px; }
+        .logo span { color: var(--primary); }
+        #live-clock { font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; color: var(--primary); font-weight: 700; }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: var(--text-sub);
+            margin: 40px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Priority Focus Card */
+        .priority-card {
+            background: rgba(17, 24, 39, 0.8);
+            border: 2px solid var(--accent);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 30px 70px rgba(var(--accent-rgb), 0.2);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .countdown-strip {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            background: var(--accent);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: 900;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .subject-hero { font-size: 1.8rem; font-weight: 900; line-height: 1.2; margin: 15px 0 25px; letter-spacing: -0.5px; color: #fff; }
+        
+        .meta-grid { display: grid; gap: 15px; }
+        .meta-cell { display: flex; align-items: center; gap: 12px; font-size: 0.95rem; color: var(--text-dim); }
+        .meta-cell i { color: var(--primary); font-size: 22px; }
+
+        /* Timeline */
+        .day-block { margin-bottom: 40px; }
+        .day-title {
+            color: var(--primary);
+            font-weight: 900;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-left: 5px;
+        }
+        .day-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(var(--primary-rgb), 0.3), transparent); }
+
+        .event-card {
+            background: var(--surface);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            padding: 25px;
+            margin-bottom: 15px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .event-card:hover {
+            transform: scale(1.02);
+            border-color: var(--primary);
+            background: #1e293b;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .event-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .time-tag { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--primary); font-size: 1rem; }
+        .type-tag { font-size: 0.65rem; font-weight: 900; text-transform: uppercase; background: rgba(255,255,255,0.08); padding: 5px 12px; border-radius: 8px; color: var(--text-dim); border: 1px solid rgba(255,255,255,0.05); }
+        .event-name { font-weight: 800; font-size: 1.15rem; margin-bottom: 12px; color: #fff; }
+        .event-footer { font-size: 0.85rem; color: var(--text-sub); display: flex; flex-wrap: wrap; gap: 15px; }
+        .event-footer span { display: flex; align-items: center; gap: 6px; }
+
+        @media (max-width: 480px) {
+            .subject-hero { font-size: 1.5rem; }
+            .priority-card { padding: 35px 25px; }
+            body { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <header class="header">
+        <div class="logo">Uni<span>Table</span></div>
+        <div id="live-clock">00:00:00</div>
+    </header>
+
+    <div id="priority-section">
+        <div class="section-label"><i class="material-icons" style="color:var(--accent)">bolt</i> NEXT UP • უახლოესი</div>
+        <div id="priority-slot"></div>
+    </div>
+
+    <div class="section-label"><i class="material-icons">calendar_view_day</i> WEEKLY • კვირის განრიგი</div>
+    <div id="timeline-slot"></div>
+</div>
+
+<script>
+    const schedule = [
+        { day: 1, name: "ფინანსური ინსტიტუტები და ბაზრები", type: "სამუშაო ჯგუფი", start: "09:00", end: "10:50", teacher: "ა. ჩუთლაშვილი", room: "X-1009" },
+        { day: 2, name: "შესავალი ფინანსურ აღრიცხვაში", type: "ლექცია", start: "12:00", end: "12:50", teacher: "მ. ვარდიაშვილი", room: "X-208" },
+        { day: 2, name: "სტატისტიკა ეკონომიკისა და ბიზნესისთვის 1", type: "სამუშაო ჯგუფი", start: "13:00", end: "14:50", teacher: "მ. გიორგობიანი", room: "X-907" },
+        { day: 2, name: "მარკეტინგი 1", type: "ლექცია", start: "16:00", end: "16:50", teacher: "ნ. ოქრუაშვილი", room: "X-1110" },
+        { day: 3, name: "ლიდერობა - მართვის ხელოვნება", type: "სამუშაო ჯგუფი", start: "13:00", end: "14:50", teacher: "დ. ფირცხალაიშვილი", room: "X-1104" },
+        { day: 3, name: "კარიერის მართვა", type: "სამუშაო ჯგუფი", start: "15:00", end: "16:50", teacher: "ნ. ხარაძე", room: "X-1212" },
+        { day: 4, name: "სტატისტიკა ეკონომიკისა და ბიზნესისთვის 1", type: "ლექცია", start: "11:00", end: "12:50", teacher: "მ. მინდორაშვილი", room: "X-201" },
+        { day: 4, name: "კარიერის მართვა", type: "ლექცია", start: "15:00", end: "15:50", teacher: "ნ. ხარაძე", room: "X-1101" },
+        { day: 4, name: "ლიდერობა - მართვის ხელოვნება", type: "ლექცია", start: "16:00", end: "16:50", teacher: "დ. ფირცხალაიშვილი", room: "X-1002" },
+        { day: 4, name: "ადამიანური რესურსების მართვა", type: "ლექცია", start: "17:00", end: "17:50", teacher: "გ. გრიგოლაშვილი", room: "X-1215" },
+        { day: 5, name: "შესავალი ფინანსურ აღრიცხვაში", type: "სამუშაო ჯგუფი", start: "11:00", end: "12:50", teacher: "მ. ვარდიაშვილი", room: "X-502" },
+        { day: 5, name: "ადამიანური რესურსების მართვა", type: "სამუშაო ჯგუფი", start: "15:00", end: "16:50", teacher: "ე. ავსაჯანიშვილი", room: "X-1211" },
+        { day: 6, name: "მარკეტინგი 1", type: "სამუშაო ჯგუფი", start: "11:00", end: "12:50", teacher: "ნ. ნაქაძე", room: "X-1104" },
+        { day: 6, name: "ფინანსური ინსტიტუტები და ბაზრები", type: "ლექცია", start: "16:00", end: "16:50", teacher: "ი. კოვზანაძე", room: "X-208" }
+    ];
+
+    const geDays = ["კვირა", "ორშაბათი", "სამშაბათი", "ოთხშაბათი", "ხუთშაბათი", "პარასკევი", "შაბათი"];
+
+    function updateApp() {
+        const now = new Date();
+        document.getElementById('live-clock').innerText = now.toLocaleTimeString('ka-GE', {hour12: false});
+
+        let nextEv = null;
+        let minDiff = Infinity;
+
+        schedule.forEach(ev => {
+            const [h, m] = ev.start.split(':').map(Number);
+            let target = new Date(now);
+            let dayDiff = ev.day - now.getDay();
+            if (dayDiff < 0 || (dayDiff === 0 && (now.getHours() > h || (now.getHours() === h && now.getMinutes() >= m)))) {
+                dayDiff += 7;
+            }
+            target.setDate(now.getDate() + dayDiff);
+            target.setHours(h, m, 0, 0);
+
+            const diff = target - now;
+            if (diff < minDiff) {
+                minDiff = diff;
+                nextEv = { ...ev, targetDate: target };
+            }
+        });
+
+        if (nextEv) {
+            const diffMs = nextEv.targetDate - now;
+            const h = Math.floor(diffMs / 3600000);
+            const m = Math.floor((diffMs % 3600000) / 60000);
+
+            document.getElementById('priority-slot').innerHTML = `
+                <div class="priority-card">
+                    <div class="countdown-strip">
+                        <i class="material-icons" style="font-size:16px">timer</i>
+                        იწყება ${h > 0 ? h + ' სთ ' : ''}${m} წუთში
+                    </div>
+                    <div class="type-tag" style="background:rgba(239,68,68,0.15); color:var(--accent); margin-top:10px; display:inline-block;">${nextEv.type}</div>
+                    <div class="subject-hero">${nextEv.name}</div>
+                    <div class="meta-grid">
+                        <div class="meta-cell"><i class="material-icons">event</i> ${geDays[nextEv.day]} • ${nextEv.start} - ${nextEv.end}</div>
+                        <div class="meta-cell"><i class="material-icons">meeting_room</i> ${nextEv.room}</div>
+                        <div class="meta-cell"><i class="material-icons">account_circle</i> ${nextEv.teacher}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        if (document.getElementById('timeline-slot').innerHTML === "") {
+            let html = "";
+            let currentDay = -1;
+
+            schedule.sort((a,b) => (a.day*100 + parseInt(a.start)) - (b.day*100 + parseInt(b.start))).forEach(ev => {
+                if (ev.day !== currentDay) {
+                    if (currentDay !== -1) html += `</div>`;
+                    html += `<div class="day-block"><div class="day-title">${geDays[ev.day]}</div>`;
+                    currentDay = ev.day;
+                }
+                html += `
+                    <div class="event-card">
+                        <div class="event-top">
+                            <span class="time-tag">${ev.start} - ${ev.end}</span>
+                            <span class="type-tag">${ev.type}</span>
+                        </div>
+                        <div class="event-name">${ev.name}</div>
+                        <div class="event-footer">
+                            <span><i class="material-icons" style="font-size:14px;">person</i> ${ev.teacher}</span>
+                            <span><i class="material-icons" style="font-size:14px;">place</i> ${ev.room}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            html += `</div>`;
+            document.getElementById('timeline-slot').innerHTML = html;
+        }
+    }
+
+    setInterval(updateApp, 1000);
+    updateApp();
+</script>
+
+</body>
+</html>
