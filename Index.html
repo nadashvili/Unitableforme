@@ -64,7 +64,6 @@
             gap: 12px;
         }
 
-        /* Priority Focus Card */
         .priority-card {
             background: rgba(17, 24, 39, 0.8);
             border: 2px solid var(--accent);
@@ -100,7 +99,6 @@
         .meta-cell { display: flex; align-items: center; gap: 12px; font-size: 0.95rem; color: var(--text-dim); }
         .meta-cell i { color: var(--primary); font-size: 22px; }
 
-        /* Timeline */
         .day-block { margin-bottom: 40px; }
         .day-title {
             color: var(--primary);
@@ -163,22 +161,30 @@
 </div>
 
 <script>
+    // განახლებული ცხრილი სურათის მიხედვით
     const schedule = [
-        { day: 1, name: "ფინანსური ინსტიტუტები და ბაზრები", type: "სამუშაო ჯგუფი", start: "09:00", end: "10:50", teacher: "ა. ჩუთლაშვილი", room: "X-1009" },
-        { day: 2, name: "შესავალი ფინანსურ აღრიცხვაში", type: "ლექცია", start: "12:00", end: "12:50", teacher: "მ. ვარდიაშვილი", room: "X-208" },
-        { day: 2, name: "სტატისტიკა ეკონომიკისა და ბიზნესისთვის 1", type: "სამუშაო ჯგუფი", start: "13:00", end: "14:50", teacher: "მ. გიორგობიანი", room: "X-907" },
-        { day: 2, name: "მარკეტინგი 1", type: "ლექცია", start: "16:00", end: "16:50", teacher: "ნ. ოქრუაშვილი", room: "X-1110" },
-        { day: 3, name: "ლიდერობა - მართვის ხელოვნება", type: "სამუშაო ჯგუფი", start: "13:00", end: "14:50", teacher: "დ. ფირცხალაიშვილი", room: "X-1104" },
-        { day: 3, name: "კარიერის მართვა", type: "სამუშაო ჯგუფი", start: "15:00", end: "16:50", teacher: "ნ. ხარაძე", room: "X-1212" },
-        { day: 4, name: "სტატისტიკა ეკონომიკისა და ბიზნესისთვის 1", type: "ლექცია", start: "11:00", end: "12:50", teacher: "მ. მინდორაშვილი", room: "X-201" },
-        { day: 4, name: "კარიერის მართვა", type: "ლექცია", start: "15:00", end: "15:50", teacher: "ნ. ხარაძე", room: "X-1101" },
-        { day: 4, name: "ლიდერობა - მართვის ხელოვნება", type: "ლექცია", start: "16:00", end: "16:50", teacher: "დ. ფირცხალაიშვილი", room: "X-1002" },
-        { day: 4, name: "ადამიანური რესურსების მართვა", type: "ლექცია", start: "17:00", end: "17:50", teacher: "გ. გრიგოლაშვილი", room: "X-1215" },
-        { day: 5, name: "შესავალი ფინანსურ აღრიცხვაში", type: "სამუშაო ჯგუფი", start: "11:00", end: "12:50", teacher: "მ. ვარდიაშვილი", room: "X-502" },
-        { day: 5, name: "ადამიანური რესურსების მართვა", type: "სამუშაო ჯგუფი", start: "15:00", end: "16:50", teacher: "ე. ავსაჯანიშვილი", room: "X-1211" },
-        { day: 6, name: "მარკეტინგი 1", type: "სამუშაო ჯგუფი", start: "11:00", end: "12:50", teacher: "ნ. ნაქაძე", room: "X-1104" },
-        { day: 6, name: "ფინანსური ინსტიტუტები და ბაზრები", type: "ლექცია", start: "16:00", end: "16:50", teacher: "ი. კოვზანაძე", room: "X-208" }
-    ];
+    // სამშაბათი (Day 2)
+    { day: 2, name: "მარკეტინგი 1", type: "სამუშაო ჯგუფი", start: "09:00", end: "10:50", teacher: "კილასონია მ.", room: "X კორპ / 1106" },
+    { day: 2, name: "შესავალი ფინანსურ აღრიცხვაში", type: "ლექცია", start: "12:00", end: "12:50", teacher: "ვარდიაშვილი მ.", room: "X კორპ / 208" },
+    { day: 2, name: "სტატისტიკა ეკონომიკისა და ბიზნესისთვის 1", type: "სამუშაო ჯგუფი", start: "13:00", end: "14:50", teacher: "გიორგობიანი მ.", room: "X კორპ / 907" },
+    { day: 2, name: "ფინანსური ინსტიტუტები და ბაზრები", type: "სამუშაო ჯგუფი", start: "15:00", end: "16:50", teacher: "ღუდუშაური ლ.", room: "X კორპ / 1005" },
+
+    // ოთხშაბათი (Day 3)
+    { day: 3, name: "ლიდერობა - მართვის ხელოვნება", type: "სამუშაო ჯგუფი", start: "13:00", end: "14:50", teacher: "ფირცხალაიშვილი დ.", room: "X კორპ / 1104" },
+    { day: 3, name: "კარიერის მართვა", type: "სამუშაო ჯგუფი", start: "15:00", end: "16:50", teacher: "ხარაძე ნ.", room: "X კორპ / 1212" },
+
+    // ხუთშაბათი (Day 4)
+    { day: 4, name: "სტატისტიკა ეკონომიკისა და ბიზნესისთვის 1", type: "ლექცია", start: "11:00", end: "12:50", teacher: "მინდორაშვილი მ.", room: "X კორპ / 201" },
+    { day: 4, name: "კარიერის მართვა", type: "ლექცია", start: "15:00", end: "15:50", teacher: "ხარაძე ნ.", room: "X კორპ / 1101" },
+    { day: 4, name: "ლიდერობა - მართვის ხელოვნება", type: "ლექცია", start: "16:00", end: "16:50", teacher: "ფირცხალაიშვილი დ.", room: "X კორპ / 1002" },
+    { day: 4, name: "ადამიანური რესურსების მართვა", type: "ლექცია", start: "17:00", end: "17:50", teacher: "გრიგოლაშვილი გ.", room: "X კორპ / 1215" },
+
+    // პარასკევი (Day 5)
+    { day: 5, name: "შესავალი ფინანსურ აღრიცხვაში", type: "სამუშაო ჯგუფი", start: "11:00", end: "12:50", teacher: "ვარდიაშვილი მ.", room: "X კორპ / 502" },
+    { day: 5, name: "ფინანსური ინსტიტუტები და ბაზრები", type: "ლექცია", start: "13:00", end: "13:50", teacher: "ღუდუშაური ლ.", room: "X კორპ / 205" },
+    { day: 5, name: "მარკეტინგი 1", type: "ლექცია", start: "14:00", end: "14:50", teacher: "მღებრიშვილი ბ.", room: "X კორპ / 1110" },
+    { day: 5, name: "ადამიანური რესურსების მართვა", type: "სამუშაო ჯგუფი", start: "15:00", end: "16:50", teacher: "ავსაჯანიშვილი ე.", room: "X კორპ / 1211" }
+];
 
     const geDays = ["კვირა", "ორშაბათი", "სამშაბათი", "ოთხშაბათი", "ხუთშაბათი", "პარასკევი", "შაბათი"];
 
@@ -232,7 +238,7 @@
             let html = "";
             let currentDay = -1;
 
-            schedule.sort((a,b) => (a.day*100 + parseInt(a.start)) - (b.day*100 + parseInt(b.start))).forEach(ev => {
+            schedule.sort((a,b) => (a.day*10000 + parseInt(a.start.replace(':',''))) - (b.day*10000 + parseInt(b.start.replace(':','')))).forEach(ev => {
                 if (ev.day !== currentDay) {
                     if (currentDay !== -1) html += `</div>`;
                     html += `<div class="day-block"><div class="day-title">${geDays[ev.day]}</div>`;
