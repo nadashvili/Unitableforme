@@ -3,7 +3,7 @@ const ASSETS = [
   './',
   './index.html',
   './manifest.json',
-  'https://i.postimg.cc/h4HqMnBR/Icon.jpg', // თქვენი ახალი ლოგო
+  'https://i.postimg.cc/J0cYFP73/Picsart-26-03-06-00-56-22-144.jpg', // თქვენი ახალი ლოგო
   'https://fonts.googleapis.com/icon?family=Material+Icons',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@700&display=swap'
 ];
