@@ -6,164 +6,71 @@
     <title>UniTable • Elvix Development</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#6366f1">
-  <link rel="apple-touch-icon" href="https://i.postimg.cc/mDfb97jf/Picsart-26-03-06-23-42-26-071.jpg">
-
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/mDfb97jf/Picsart-26-03-06-23-42-26-071.jpg">
     
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root {
-            --primary-rgb: 99, 102, 241;
-            --primary: rgb(var(--primary-rgb));
-            --accent-rgb: 239, 68, 68;
-            --accent: rgb(var(--accent-rgb));
-            --bg: #030712;
-            --surface: #111827;
-            --surface-light: #1f2937;
-            --card-border: rgba(51, 65, 85, 0.3);
-            --text-main: #f8fafc;
-            --text-dim: #94a3b8;
-            --text-sub: #64748b;
-            --radius-xl: 32px;
-            --radius-md: 20px;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background-color: var(--bg); 
-            color: var(--text-main); 
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            padding: 20px;
-            -webkit-font-smoothing: antialiased;
-            background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #030712 100%);
-        }
-
-        .app-container { width: 100%; max-width: 600px; animation: fadeIn 0.8s ease-out; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .header {
-            padding: 20px 0 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--card-border);
-            margin-bottom: 30px;
-        }
-        .logo { font-size: 1.6rem; font-weight: 900; letter-spacing: -1.5px; }
-        .logo span { color: var(--primary); }
-        #live-clock { font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; color: var(--primary); font-weight: 700; }
-
-        .section-label {
-            font-size: 0.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2.5px;
-            color: var(--text-sub);
-            margin: 40px 0 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .priority-card {
-            background: rgba(17, 24, 39, 0.8);
-            border: 2px solid var(--accent);
-            border-radius: var(--radius-xl);
-            padding: 40px;
-            position: relative;
-            box-shadow: 0 30px 70px rgba(var(--accent-rgb), 0.2);
-            backdrop-filter: blur(10px);
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
-        .countdown-strip {
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            background: var(--accent);
-            color: white;
-            padding: 10px;
-            text-align: center;
-            font-weight: 900;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .subject-hero { font-size: 1.8rem; font-weight: 900; line-height: 1.2; margin: 15px 0 25px; letter-spacing: -0.5px; color: #fff; }
-        
-        .meta-grid { display: grid; gap: 15px; }
-        .meta-cell { display: flex; align-items: center; gap: 12px; font-size: 0.95rem; color: var(--text-dim); }
-        .meta-cell i { color: var(--primary); font-size: 22px; }
-
-        .day-block { margin-bottom: 40px; }
-        .day-title {
-            color: var(--primary);
-            font-weight: 900;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-            padding-left: 5px;
-        }
-        .day-title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(var(--primary-rgb), 0.3), transparent); }
-
-        .event-card {
-            background: var(--surface);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius-md);
-            padding: 25px;
-            margin-bottom: 15px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-        }
-
-        .event-card:hover {
-            transform: scale(1.02);
-            border-color: var(--primary);
-            background: #1e293b;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-        }
-
-        .event-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .time-tag { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--primary); font-size: 1rem; }
-        .type-tag { font-size: 0.65rem; font-weight: 900; text-transform: uppercase; background: rgba(255,255,255,0.08); padding: 5px 12px; border-radius: 8px; color: var(--text-dim); border: 1px solid rgba(255,255,255,0.05); }
-        .event-name { font-weight: 800; font-size: 1.15rem; margin-bottom: 12px; color: #fff; }
-        .event-footer { font-size: 0.85rem; color: var(--text-sub); display: flex; flex-wrap: wrap; gap: 15px; }
-        .event-footer span { display: flex; align-items: center; gap: 6px; }
-
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
-
-        @media (max-width: 480px) {
-            .subject-hero { font-size: 1.5rem; }
-            .priority-card { padding: 35px 25px; }
-            body { padding: 15px; }
-        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .snap-x-mandatory { scroll-snap-type: x mandatory; }
+        .snap-center { scroll-snap-align: center; }
     </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6366f1',
+                        accent: '#ef4444',
+                        bg: '#030712',
+                        surface: '#111827',
+                        'text-main': '#f8fafc',
+                        'text-dim': '#94a3b8',
+                        'text-sub': '#64748b',
+                    },
+                    borderRadius: { 'xl': '32px', 'md': '20px' },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    animation: { fadeIn: 'fadeIn 0.8s ease-out' },
+                    keyframes: { fadeIn: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+                },
+            }
+        }
+    </script>
 </head>
-<body>
+<body class="min-h-screen flex justify-center p-5 text-text-main font-sans bg-bg bg-[radial-gradient(circle_at_50%_0%,#1e1b4b_0%,#030712_100%)]">
 
-<div class="app-container">
-    <header class="header">
-        <div class="logo">Uni<span>Table</span></div>
-        <div id="live-clock">00:00:00</div>
+<div class="app-container w-full max-w-xl animate-fadeIn">
+    <header class="flex justify-between items-center py-5 pb-10 border-b border-slate-700/30 mb-8">
+        <div class="text-2xl font-extrabold tracking-tight">Uni<span class="text-primary">Table</span></div>
+        <div id="live-clock" class="font-mono text-lg text-primary font-bold">00:00:00</div>
     </header>
 
     <div id="priority-section">
-        <div class="section-label"><i class="material-icons" style="color:var(--accent)">bolt</i> NEXT UP • უახლოესი</div>
+        <div class="flex items-center gap-3 text-xs font-extrabold uppercase tracking-widest text-text-sub mb-5">
+            <i class="material-icons text-accent text-lg">bolt</i> NEXT UP • უახლოესი
+        </div>
         <div id="priority-slot"></div>
     </div>
 
-    <div class="section-label"><i class="material-icons">calendar_view_day</i> WEEKLY • კვირის განრიგი</div>
+    <div class="flex justify-between items-center mt-10 mb-5">
+        <div class="flex items-center gap-3 text-xs font-extrabold uppercase tracking-widest text-text-sub">
+            <i class="material-icons text-lg">calendar_view_day</i> TODAY • დღეს
+        </div>
+        <button id="breaks-toggle" class="bg-primary/10 border border-primary text-primary py-2 px-4 rounded-xl text-xs font-extrabold cursor-pointer flex items-center gap-2 transition-all duration-300 ease-in-out hover:bg-primary hover:text-white" style="display: none;">
+            <i class="material-icons text-base transition-transform duration-300">expand_more</i> შუალედები
+        </button>
+    </div>
+
+    <div id="gaps-drawer" class="max-h-0 overflow-hidden transition-all duration-500 ease-in-out opacity-0">
+        <div id="gaps-slot" class="pb-2.5"></div>
+    </div>
+
+    <div style="border-left: #6366f1 solid 3px; padding: 10px; border-radius: 10px;" id="today-carousel" class="no-scrollbar flex gap-4 overflow-x-auto snap-x-mandatory px-1">
+    </div> <br />
+    
     <div id="timeline-slot"></div>
 </div>
 
@@ -186,83 +93,147 @@
     ];
 
     const geDays = ["კვირა", "ორშაბათი", "სამშაბათი", "ოთხშაბათი", "ხუთშაბათი", "პარასკევი", "შაბათი"];
+    let lastRenderedDay = -1;
+
+    function timeToMin(t) { const [h, m] = t.split(':').map(Number); return h * 60 + m; }
+
+    // დამხმარე ფუნქცია დროის ფორმატირებისთვის
+    function formatTimeRemaining(totalMinutes) {
+        const hours = Math.floor(totalMinutes / 60);
+        const mins = totalMinutes % 60;
+        if (hours > 0) {
+            return `${hours}სთ ${mins}წთ`;
+        }
+        return `${mins} წთ`;
+    }
 
     function updateApp() {
         const now = new Date();
+        const curDay = now.getDay();
         document.getElementById('live-clock').innerText = now.toLocaleTimeString('ka-GE', {hour12: false});
 
-        let nextEv = null;
-        let minDiff = Infinity;
+        if (lastRenderedDay !== curDay) {
+            const today = schedule.filter(e => e.day === curDay).sort((a,b) => a.start.localeCompare(b.start));
+            const carousel = document.getElementById('today-carousel');
+            const gapsSlot = document.getElementById('gaps-slot');
+            const toggleBtn = document.getElementById('breaks-toggle');
+            
+            if (today.length > 0) {
+                carousel.innerHTML = today.map(ev => {
+                    return `
+                        <div class="snap-center shrink-0 w-64 bg-surface border border-slate-700/50 rounded-md p-5 transition-all duration-300 today-card" data-start="${ev.start}" data-end="${ev.end}">
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="font-mono text-xs font-bold text-primary">${ev.start} - ${ev.end}</span>
+                                <span class="status-indicator text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-white/5 text-text-sub">შემდეგი</span>
+                            </div>
+                            <div class="font-bold text-base text-white leading-tight mb-3 line-clamp-1">${ev.name}</div>
+                            <div class="flex items-center gap-2 text-xs text-text-dim">
+                                <i class="material-icons text-sm text-primary">place</i>
+                                <span>${ev.room.split(' / ')[1] || ev.room}</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
 
-        schedule.forEach(ev => {
-            const [hStart, mStart] = ev.start.split(':').map(Number);
-            const [hEnd, mEnd] = ev.end.split(':').map(Number);
-            
-            let targetStart = new Date(now);
-            let targetEnd = new Date(now);
-            
-            let dayDiff = ev.day - now.getDay();
-            
-            if (dayDiff < 0 || (dayDiff === 0 && (now.getHours() > hEnd || (now.getHours() === hEnd && now.getMinutes() >= mEnd)))) {
-                dayDiff += 7;
+                let gapsHTML = "";
+                for (let i = 0; i < today.length - 1; i++) {
+                    const gap = timeToMin(today[i+1].start) - timeToMin(today[i].end);
+                    if (gap >= 10) {
+                        gapsHTML += `
+                            <div class="flex justify-between items-center bg-primary/5 border border-dashed border-primary rounded-md p-5 mb-3">
+                                <div class="flex items-center gap-3 text-text-dim">
+                                    <i class="material-icons text-primary text-lg">timer</i> 
+                                    <span>${today[i].name}-ს შემდეგ</span>
+                                </div>
+                                <div class="font-mono font-bold text-primary text-base">${formatTimeRemaining(gap)}</div>
+                            </div>`;
+                    }
+                }
+                toggleBtn.style.display = gapsHTML ? "flex" : "none";
+                gapsSlot.innerHTML = gapsHTML;
             }
-            
-            targetStart.setDate(now.getDate() + dayDiff);
-            targetStart.setHours(hStart, mStart, 0, 0);
-            targetEnd.setDate(now.getDate() + dayDiff);
-            targetEnd.setHours(hEnd, mEnd, 0, 0);
+            lastRenderedDay = curDay;
+        }
 
-            const diff = targetStart - now;
-            if (diff < minDiff) {
-                minDiff = diff;
-                nextEv = { ...ev, targetDate: targetStart, isLive: (now >= targetStart && now < targetEnd) };
+        document.querySelectorAll('.today-card').forEach(card => {
+            const start = timeToMin(card.dataset.start);
+            const end = timeToMin(card.dataset.end);
+            const current = now.getHours() * 60 + now.getMinutes();
+            const indicator = card.querySelector('.status-indicator');
+
+            if (current >= start && current < end) {
+                card.classList.add('border-emerald-500', 'bg-emerald-500/5', 'scale-105');
+                indicator.innerText = "LIVE";
+                indicator.classList.add('bg-emerald-500', 'text-white');
+            } else if (current > end) {
+                card.style.opacity = "0.5";
+                indicator.innerText = "დასრულდა";
             }
         });
 
+        let nextEv = null;
+        let allUpcoming = [];
+        schedule.forEach(ev => {
+            const [hS, mS] = ev.start.split(':').map(Number);
+            const [hE, mE] = ev.end.split(':').map(Number);
+            let tS = new Date(now); let tE = new Date(now);
+            let dDiff = ev.day - curDay;
+            if (dDiff < 0 || (dDiff === 0 && (now.getHours() > hE || (now.getHours() === hE && now.getMinutes() >= mE)))) dDiff += 7;
+            tS.setDate(now.getDate() + dDiff); tS.setHours(hS, mS, 0, 0);
+            tE.setDate(now.getDate() + dDiff); tE.setHours(hE, mE, 0, 0);
+
+            if (now >= tS && now < tE) { nextEv = { ...ev, targetDate: tS, isLive: true }; }
+            else if (now < tS) { allUpcoming.push({ ...ev, targetDate: tS, isLive: false }); }
+        });
+
+        if (!nextEv && allUpcoming.length > 0) {
+            allUpcoming.sort((a, b) => a.targetDate - b.targetDate);
+            nextEv = allUpcoming[0];
+        }
+
         if (nextEv) {
-            const diffMs = nextEv.targetDate - now;
-            let statusHTML = "";
-            const isLive = nextEv.isLive;
-            const accentColor = isLive ? "#4ade80" : "var(--accent)";
-
-            if (isLive) {
-                statusHTML = `<i class="material-icons" style="font-size:16px; animation: pulse 1.5s infinite">sensors</i> მიმდინარეობს...`;
-            } else {
-                const h = Math.floor(diffMs / 3600000);
-                const m = Math.floor((diffMs % 3600000) / 60000);
-                statusHTML = `<i class="material-icons" style="font-size:16px">timer</i> იწყება ${h > 0 ? h + ' სთ ' : ''}${m} წუთში`;
+            const clr = nextEv.isLive ? "bg-emerald-500" : "bg-accent";
+            const borderColor = nextEv.isLive ? "border-emerald-500" : "border-accent";
+            
+            let countdownText = 'მიმდინარეობს...';
+            if (!nextEv.isLive) {
+                const diffMs = nextEv.targetDate - now;
+                const diffMin = Math.floor(diffMs / 60000);
+                countdownText = `იწყება ${formatTimeRemaining(diffMin)}-ში`;
             }
-
+            
             document.getElementById('priority-slot').innerHTML = `
-                <div class="priority-card" style="border-color: ${accentColor};">
-                    <div class="countdown-strip" style="background: ${accentColor};">${statusHTML}</div>
-                    <div class="type-tag" style="margin-top:10px; display:inline-block;">${nextEv.type}</div>
-                    <div class="subject-hero">${nextEv.name}</div>
-                    <div class="meta-grid">
-                        <div class="meta-cell"><i class="material-icons">event</i> ${geDays[nextEv.day]} • ${nextEv.start} - ${nextEv.end}</div>
-                        <div class="meta-cell"><i class="material-icons">meeting_room</i> ${nextEv.room}</div>
-                        <div class="meta-cell"><i class="material-icons">account_circle</i> ${nextEv.teacher}</div>
+                <div class="relative bg-surface/80 ${borderColor} border-2 rounded-xl p-8 shadow-xl backdrop-blur-sm">
+                    <div class="absolute top-0 left-0 right-0 ${clr} text-white py-2 text-center font-black text-s uppercase rounded-t-[25px]">
+                        ${countdownText}
+                    </div>
+                    <div class="text-[10px] font-black uppercase bg-white/5 py-1 px-3 rounded-md text-text-dim mt-4 inline-block">${nextEv.type}</div>
+                    <div class="text-2xl font-black mt-4 mb-5 text-white">${nextEv.name}</div>
+                    <div class="grid gap-2">
+                        <div class="flex items-center gap-3 text-sm text-text-dim"><i class="material-icons text-primary text-base">event</i><span>${geDays[nextEv.day]} • ${nextEv.start} - ${nextEv.end}</span></div>
+                        <div class="flex items-center gap-3 text-sm text-text-dim"><i class="material-icons text-primary text-base">meeting_room</i><span>${nextEv.room}</span></div>
                     </div>
                 </div>`;
         }
 
-        if (document.getElementById('timeline-slot').innerHTML === "") {
-            let html = "";
-            let currentDay = -1;
-            const sortedSchedule = [...schedule].sort((a,b) => (a.day*10000 + parseInt(a.start.replace(':',''))) - (b.day*10000 + parseInt(b.start.replace(':',''))));
-            sortedSchedule.forEach(ev => {
-                if (ev.day !== currentDay) {
-                    if (currentDay !== -1) html += `</div>`;
-                    html += `<div class="day-block"><div class="day-title">${geDays[ev.day]}</div>`;
-                    currentDay = ev.day;
+        if (!document.getElementById('timeline-slot').hasChildNodes()) {
+            let html = ""; let cDay = -1;
+            [...schedule].sort((a,b) => a.day !== b.day ? a.day - b.day : timeToMin(a.start) - timeToMin(b.start)).forEach(ev => {
+                if (ev.day !== cDay) {
+                    if (cDay !== -1) html += `</div>`;
+                    html += `<div class="mb-10"><div class="text-primary font-black text-sm flex items-center gap-4 mb-6 uppercase tracking-widest">${geDays[ev.day]}<div class="flex-1 h-px bg-primary/20"></div></div>`;
+                    cDay = ev.day;
                 }
                 html += `
-                    <div class="event-card">
-                        <div class="event-top"><span class="time-tag">${ev.start} - ${ev.end}</span><span class="type-tag">${ev.type}</span></div>
-                        <div class="event-name">${ev.name}</div>
-                        <div class="event-footer">
-                            <span><i class="material-icons" style="font-size:14px;">person</i> ${ev.teacher}</span>
-                            <span><i class="material-icons" style="font-size:14px;">place</i> ${ev.room}</span>
+                    <div class="bg-surface border border-slate-700/30 rounded-md p-6 mb-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="font-mono font-bold text-primary text-sm">${ev.start} - ${ev.end}</span>
+                            <span class="text-[10px] font-black uppercase bg-white/5 px-2 py-1 rounded text-text-dim">${ev.type}</span>
+                        </div>
+                        <div class="font-bold text-lg text-white mb-3">${ev.name}</div>
+                        <div class="flex gap-4 text-xs text-text-dim">
+                            <span class="flex items-center gap-1"><i class="material-icons text-sm text-primary">person</i>${ev.teacher.split(' ')[0]}</span>
+                            <span class="flex items-center gap-1"><i class="material-icons text-sm text-primary">place</i>${ev.room.split(' / ')[1]}</span>
                         </div>
                     </div>`;
             });
@@ -270,17 +241,18 @@
         }
     }
 
-    setInterval(updateApp, 1000);
-    updateApp();
+    document.getElementById('breaks-toggle').onclick = function() {
+        const drawer = document.getElementById('gaps-drawer');
+        this.classList.toggle('active');
+        drawer.classList.toggle('max-h-0');
+        drawer.classList.toggle('max-h-screen');
+        drawer.classList.toggle('opacity-0');
+        drawer.classList.toggle('opacity-100');
+        this.querySelector('i').style.transform = this.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+    };
 
-    // Service Worker Registration
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js')
-                .then(reg => console.log('PWA Ready'))
-                .catch(err => console.log('PWA Failed', err));
-        });
-    }
+    updateApp();
+    setInterval(updateApp, 60000);
 </script>
 </body>
 </html>
