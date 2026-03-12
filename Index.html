@@ -175,6 +175,10 @@
             letter-spacing: 0.1em;
         }
         .day-divider::after { content: ""; flex: 1; height: 1px; background: rgba(99, 102, 241, 0.2); }
+        .vax{
+            border-radius: 10px;
+            border-right: var(--primary) solid 3px;
+        }
     </style>
 </head>
 <body>
@@ -204,8 +208,9 @@
     <div id="gaps-drawer" class="gaps-container">
         <div id="gaps-slot" style="padding-bottom: 10px;"></div>
     </div>
-
-    <div id="today-carousel" class="no-scrollbar"></div> 
+<div class="vax">
+    
+    <div id="today-carousel" class="no-scrollbar"></div></div> 
     <br />
     
     <div id="timeline-slot"></div>
