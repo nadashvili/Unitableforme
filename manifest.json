@@ -1,22 +1,15 @@
 {
   "name": "UniTable Schedule",
   "short_name": "UniTable",
-  "start_url": "index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#030712",
-  "theme_color": "#030712",
-  "description": "უნივერსიტეტის პერსონალური ცხრილი",
+  "theme_color": "#6366f1",
   "icons": [
     {
-      "src": "https://i.postimg.cc/ZKSB8MDN/Screenshot-20260311-184125-Gallery.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "https://i.postimg.cc/ZKSB8MDN/Screenshot-20260311-184125-Gallery.png",
+      "src": "https://i.postimg.cc/mDfb97jf/Picsart-26-03-06-23-42-26-071.jpg",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/jpeg",
       "purpose": "any maskable"
     }
   ]
