@@ -2,329 +2,268 @@
 <html lang="ka">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>UniTable</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#030712">
+    <title>UniTable Schedule</title>
     
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/ZKSB8MDN/Screenshot-20260311-184125-Gallery.png">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/ZKSB8MDN/Screenshot-20260311-184125-Gallery.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <style>
         :root {
-            --bg-gradient: radial-gradient(circle at top center, #1e1b4b 0%, #030712 100%);
+            --bg-dark: #030712;
+            --bg-accent: #1e1b4b;
             --accent-red: #ef4444;
             --live-green: #10b981;
-            --ghost-indigo: #6366f1;
-            --text-main: #f8fafc;
-            --card-bg: rgba(255, 255, 255, 0.05);
+            --indigo: #6366f1;
+            --text-primary: #f8fafc;
+            --text-muted: #94a3b8;
+            --card-bg: rgba(30, 41, 59, 0.7);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* Scrollbar-ის დამალვა */
-        ::-webkit-scrollbar { display: none; }
-
+        html { background-color: var(--bg-dark); height: 100%; }
         body {
-            background: var(--bg-gradient);
-            background-attachment: fixed;
-            color: var(--text-main);
+            margin: 0;
+            color: var(--text-primary);
             font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top center, var(--bg-accent) 0%, var(--bg-dark) 100%);
+            background-attachment: fixed;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            overflow-x: hidden;
-            animation: fadeIn 0.8s ease-out;
+            overscroll-behavior-y: none;
         }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         #app-container {
             width: 100%;
             max-width: 560px;
-            padding: 20px;
-            padding-bottom: 50px;
+            margin: 0 auto;
+            padding: 40px 20px 100px 20px;
+            box-sizing: border-box;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            margin-top: 10px;
-        }
+        header { text-align: center; margin-bottom: 40px; }
 
         #live-clock {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 3rem;
-            font-weight: bold;
+            font-size: 3.2rem;
+            font-weight: 500;
             letter-spacing: -2px;
-            color: var(--text-main);
-            text-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+            text-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
         }
 
         #current-date {
-            color: var(--ghost-indigo);
-            font-weight: 700;
+            color: var(--indigo);
+            font-weight: 600;
+            margin-top: 8px;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 5px;
+            font-size: 0.9rem;
         }
 
-        .section-title {
-            font-weight: 800;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            color: #94a3b8;
-            margin: 25px 0 15px 5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* Priority Card */
         .priority-card {
-            background: rgba(255, 255, 255, 0.03);
-            border-left: 4px solid var(--accent-red);
-            border-radius: 16px;
-            padding: 24px;
-            backdrop-filter: blur(10px);
-            margin-bottom: 20px;
-            position: relative;
-            transition: all 0.3s ease;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: 6px solid var(--accent-red);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 35px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
 
         .priority-card.live {
             border-left-color: var(--live-green);
-            background: rgba(16, 185, 129, 0.08);
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
+            background: rgba(16, 185, 129, 0.12);
+            box-shadow: 0 0 25px rgba(16, 185, 129, 0.15);
         }
 
-        .priority-card h2 { font-size: 1.2rem; margin: 12px 0; line-height: 1.4; }
+        .priority-card h2 { font-size: 1.2rem; margin: 15px 0; line-height: 1.4; }
 
-        /* Timeline Items */
-        .event-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        .controls-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
         }
 
-        .event-card.break {
-            border: 1px dashed rgba(99, 102, 241, 0.3);
-            background: transparent;
-            opacity: 0.7;
-        }
-
-        .meta-info {
-            font-size: 0.8rem;
-            color: #94a3b8;
+        .section-title {
+            font-size: 0.75rem;
+            color: var(--text-muted);
             display: flex;
             align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+        }
+
+        .event-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .meta {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-wrap: wrap;
             gap: 15px;
             margin-top: 10px;
         }
 
-        .meta-info span { display: flex; align-items: center; gap: 4px; }
+        .meta span { display: flex; align-items: center; gap: 6px; }
+        .meta i { font-size: 16px; color: var(--indigo); }
 
-        .day-divider {
-            color: var(--ghost-indigo);
-            font-size: 0.9rem;
-            font-weight: bold;
-            margin: 30px 0 15px 0;
-            padding-bottom: 5px;
-            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        .break-card {
+            border: 1px dashed rgba(99, 102, 241, 0.4);
+            margin: 5px 20px 20px 20px;
+            padding: 10px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--indigo);
+        }
+
+        .day-sep {
+            margin: 40px 0 20px 0;
+            font-weight: 800;
+            color: var(--indigo);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .day-sep::after {
+            content: "";
+            height: 1px;
+            flex-grow: 1;
+            background: linear-gradient(to right, rgba(99, 102, 241, 0.3), transparent);
         }
 
         .ghost-btn {
-            background: transparent;
-            border: 1px solid var(--ghost-indigo);
-            color: var(--ghost-indigo);
-            padding: 6px 12px;
-            border-radius: 8px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--indigo);
+            color: var(--indigo);
+            padding: 8px 16px;
+            border-radius: 12px;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 5px;
-            cursor: pointer;
-            font-size: 0.75rem;
-            font-weight: bold;
-            transition: 0.2s;
+            gap: 6px;
+            font-size: 0.8rem;
         }
 
-        .ghost-btn:active { transform: scale(0.95); background: rgba(99, 102, 241, 0.1); }
+        ::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body>
+    <div id="app-container">
+        <header>
+            <div id="live-clock">00:00:00</div>
+            <div id="current-date">იტვირთება...</div>
+        </header>
 
-<div id="app-container">
-    <header>
-        <div id="live-clock">00:00:00</div>
-        <div id="current-date">იტვირთება...</div>
-    </header>
+        <section id="priority-section"></section>
 
-    <div id="priority-section"></div>
-
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <div class="section-title">
-            <span class="material-icons" style="font-size: 18px;">calendar_today</span> 
-            სრული განრიგი
+        <div class="controls-row">
+            <div class="section-title"><span class="material-icons">event_repeat</span> განრიგი</div>
+            <button class="ghost-btn" onclick="toggleBreaks()">
+                <span class="material-icons" id="break-icon">visibility</span> შესვენება
+            </button>
         </div>
-        <button class="ghost-btn" onclick="toggleBreaks()">
-            <span class="material-icons" id="break-icon" style="font-size: 16px;">visibility</span> 
-            შესვენებები
-        </button>
-    </div>
-    
-    <div id="full-schedule"></div>
-</div>
-
-<script>
-    // მონაცემების სტრუქტურა
-    const schedule = [
-        { day: 1, name: "სტატისტიკა ეკონომიკისა და ბიზნესისთვის 1", type: "ლექცია", start: "09:00", end: "10:50", teacher: "შონია ზაზა", room: "201" },
-        { day: 1, name: "ფინანსური ინსტიტუტები და ბაზრები", type: "სამუშაო ჯგუფი", start: "13:00", end: "13:50", teacher: "რუფალელი ავთანდილი", room: "1009" },
-        { day: 1, name: "ფინანსური ინსტიტუტები და ბაზრები", type: "სამუშაო ჯგუფი", start: "14:00", end: "14:50", teacher: "რუფალელი ავთანდილი", room: "1009" },
-        { day: 2, name: "მარკეტინგი 1", type: "სამუშაო ჯგუფი", start: "09:00", end: "09:50", teacher: "კოლხიდა მიხეილ", room: "1106" },
-        { day: 2, name: "მარკეტინგი 1", type: "სამუშაო ჯგუფი", start: "10:00", end: "10:50", teacher: "კოლხიდა მიხეილ", room: "1106" },
-        { day: 2, name: "ბიზნესის ადმინისტრირების საფუძვლები 2", type: "ლექცია", start: "11:00", end: "11:50", teacher: "ედილაშვილი ქრისტინე", room: "205" },
-        { day: 2, name: "ბიზნესის სამართალი", type: "ლექცია", start: "14:00", end: "14:50", teacher: "ყიფიანი გიგა", room: "202" },
-        { day: 3, name: "ინოვაციური მენეჯმენტი", type: "სამუშაო ჯგუფი", start: "17:00", end: "17:50", teacher: "ნიჟარაძე დავით", room: "1009" },
-        { day: 3, name: "ინოვაციური მენეჯმენტი", type: "სამუშაო ჯგუფი", start: "18:00", end: "18:50", teacher: "ნიჟარაძე დავით", room: "1009" },
-        { day: 4, name: "ბიზნესის ადმინისტრირების საფუძვლები 2", type: "სამუშაო ჯგუფი", start: "13:00", end: "14:50", teacher: "მჭედლიშვილი თეიმურაზ", room: "603" },
-        { day: 5, name: "ინოვაციური მენეჯმენტი", type: "ლექცია", start: "11:00", end: "11:50", teacher: "ნიჟარაძე დავით", room: "204" },
-        { day: 5, name: "მარკეტინგი 1", type: "ლექცია", start: "14:00", end: "14:50", teacher: "მღებრიშვილი ხათუნა", room: "1110" },
-        { day: 6, name: "სტატისტიკა ეკონომიკისა და ბიზნესისთვის 1", type: "სამუშაო ჯგუფი", start: "09:00", end: "09:50", teacher: "ოქროშიაშვილი მარიამ", room: "1117" },
-        { day: 6, name: "სტატისტიკა ეკონომიკისა და ბიზნესისთვის 1", type: "სამუშაო ჯგუფი", start: "10:00", end: "10:50", teacher: "ოქროშიაშვილი მარიამ", room: "1117" },
-        { day: 6, name: "ბიზნესის სამართალი", type: "სამუშაო ჯგუფი", start: "13:00", end: "14:50", teacher: "წერეთელი მარიამი", room: "603" },
-        { day: 6, name: "ფინანსური ინსტიტუტები და ბაზრები", type: "ლექცია", start: "16:00", end: "16:50", teacher: "ყურაშვილი ირაკლი", room: "208" }
-    ];
-
-    const dayNames = ["კვირა", "ორშაბათი", "სამშაბათი", "ოთხშაბათი", "ხუთშაბათი", "პარასკევი", "შაბათი"];
-    let showBreaks = true;
-
-    function timeToMin(t) {
-        const [h, m] = t.split(':').map(Number);
-        return h * 60 + m;
-    }
-
-    function toggleBreaks() {
-        showBreaks = !showBreaks;
-        document.getElementById('break-icon').innerText = showBreaks ? 'visibility' : 'visibility_off';
-        renderFullSchedule();
-    }
-
-    function updateApp() {
-        const now = new Date();
-        const currentDay = now.getDay();
-        const currentMin = now.getHours() * 60 + now.getMinutes();
-
-        // საათის განახლება
-        document.getElementById('live-clock').innerText = now.toTimeString().split(' ')[0];
-        document.getElementById('current-date').innerText = dayNames[currentDay];
-
-        // პრიორიტეტული (მიმდინარე/შემდეგი) ლექცია
-        renderPriority(currentDay, currentMin);
-    }
-
-    function renderPriority(day, min) {
-        const todays = schedule.filter(e => e.day === day).sort((a,b) => timeToMin(a.start) - timeToMin(b.start));
-        const active = todays.find(e => min >= timeToMin(e.start) && min < timeToMin(e.end));
-        const next = todays.find(e => timeToMin(e.start) > min);
         
-        const container = document.getElementById('priority-section');
+        <div id="full-schedule"></div>
+    </div>
 
-        if (active) {
-            container.innerHTML = `
-                <div class="priority-card live">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <span style="color:var(--live-green); font-weight:800; font-size:0.7rem; letter-spacing:1px;">● LIVE</span>
-                        <span style="font-family:'JetBrains Mono'">${active.start} - ${active.end}</span>
-                    </div>
-                    <h2>${active.name}</h2>
-                    <div class="meta-info">
-                        <span><i class="material-icons" style="font-size:14px">meeting_room</i> ${active.room}</span>
-                        <span><i class="material-icons" style="font-size:14px">person</i> ${active.teacher}</span>
-                    </div>
-                </div>`;
-        } else if (next) {
-            const diff = timeToMin(next.start) - min;
-            const timer = diff > 60 ? `${Math.floor(diff/60)} სთ ${diff%60} წთ` : `${diff} წთ`;
-            container.innerHTML = `
-                <div class="priority-card">
-                    <div style="color:var(--accent-red); font-weight:800; font-size:0.7rem; letter-spacing:1px;">შემდეგი: ${timer}-ში</div>
-                    <h2>${next.name}</h2>
-                    <div class="meta-info">
-                        <span><i class="material-icons" style="font-size:14px">schedule</i> იწყება ${next.start}-ზე</span>
-                    </div>
-                </div>`;
-        } else {
-            container.innerHTML = `<div class="priority-card" style="border-left-color:gray; opacity:0.6">დღეს ყველა ლექცია დასრულდა</div>`;
+    <script>
+        const scheduleData = [
+            { day: 1, name: "სტატისტიკა ეკონომიკისა და ბიზნესისთვის 1", type: "ლექცია", start: "09:00", end: "10:50", teacher: "შონია ზაზა", room: "201" },
+            { day: 1, name: "ფინანსური ინსტიტუტები და ბაზრები", type: "სამუშაო ჯგუფი", start: "13:00", end: "13:50", teacher: "რუფალელი ავთანდილი", room: "1009" },
+            { day: 1, name: "ფინანსური ინსტიტუტები და ბაზრები", type: "სამუშაო ჯგუფი", start: "14:00", end: "14:50", teacher: "რუფალელი ავთანდილი", room: "1009" },
+            { day: 2, name: "მარკეტინგი 1", type: "სამუშაო ჯგუფი", start: "09:00", end: "09:50", teacher: "კოლხიდა მიხეილ", room: "1106" },
+            { day: 2, name: "მარკეტინგი 1", type: "სამუშაო ჯგუფი", start: "10:00", end: "10:50", teacher: "კოლხიდა მიხეილ", room: "1106" },
+            { day: 2, name: "ბიზნესის ადმინისტრირების საფუძვლები 2", type: "ლექცია", start: "11:00", end: "11:50", teacher: "ედილაშვილი ქრისტინე", room: "205" },
+            { day: 2, name: "ბიზნესის სამართალი", type: "ლექცია", start: "14:00", end: "14:50", teacher: "ყიფიანი გიგა", room: "202" },
+            { day: 3, name: "ინოვაციური მენეჯმენტი", type: "სამუშაო ჯგუფი", start: "17:00", end: "17:50", teacher: "ნიჟარაძე დავით", room: "1009" },
+            { day: 3, name: "ინოვაციური მენეჯმენტი", type: "სამუშაო ჯგუფი", start: "18:00", end: "18:50", teacher: "ნიჟარაძე დავით", room: "1009" },
+            { day: 4, name: "ბიზნესის ადმინისტრირების საფუძვლები 2", type: "სამუშაო ჯგუფი", start: "13:00", end: "14:50", teacher: "მჭედლიშვილი თეიმურაზ", room: "603" },
+            { day: 5, name: "ინოვაციური მენეჯმენტი", type: "ლექცია", start: "11:00", end: "11:50", teacher: "ნიჟარაძე დავით", room: "204" },
+            { day: 5, name: "მარკეტინგი 1", type: "ლექცია", start: "14:00", end: "14:50", teacher: "მღებრიშვილი ხათუნა", room: "1110" },
+            { day: 6, name: "სტატისტიკა ეკონომიკისა და ბიზნესისთვის 1", type: "სამუშაო ჯგუფი", start: "09:00", end: "09:50", teacher: "ოქროშიაშვილი მარიამ", room: "1117" },
+            { day: 6, name: "სტატისტიკა ეკონომიკისა და ბიზნესისთვის 1", type: "სამუშაო ჯგუფი", start: "10:00", end: "10:50", teacher: "ოქროშიაშვილი მარიამ", room: "1117" },
+            { day: 6, name: "ბიზნესის სამართალი", type: "სამუშაო ჯგუფი", start: "13:00", end: "14:50", teacher: "წერეთელი მარიამი", room: "603" },
+            { day: 6, name: "ფინანსური ინსტიტუტები და ბაზრები", type: "ლექცია", start: "16:00", end: "16:50", teacher: "ყურაშვილი ირაკლი", room: "208" }
+        ];
+
+        const days = ["კვირა", "ორშაბათი", "სამშაბათი", "ოთხშაბათი", "ხუთშაბათი", "პარასკევი", "შაბათი"];
+        let showBreaks = true;
+
+        const t2m = t => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
+
+        function toggleBreaks() {
+            showBreaks = !showBreaks;
+            document.getElementById('break-icon').innerText = showBreaks ? 'visibility' : 'visibility_off';
+            renderUI();
         }
-    }
 
-    function renderFullSchedule() {
-        const container = document.getElementById('full-schedule');
-        container.innerHTML = '';
+        function updateTime() {
+            const now = new Date();
+            const min = now.getHours() * 60 + now.getMinutes();
+            const day = now.getDay();
+            document.getElementById('live-clock').innerText = now.toTimeString().split(' ')[0];
+            document.getElementById('current-date').innerText = days[day];
 
-        for (let i = 1; i <= 6; i++) {
-            const dayEvents = schedule.filter(e => e.day === i).sort((a,b) => timeToMin(a.start) - timeToMin(b.start));
-            if (dayEvents.length === 0) continue;
+            const today = scheduleData.filter(e => e.day === day).sort((a,b) => t2m(a.start) - t2m(b.start));
+            const active = today.find(e => min >= t2m(e.start) && min < t2m(e.end));
+            const next = today.find(e => t2m(e.start) > min);
 
-            const dayDiv = document.createElement('div');
-            dayDiv.className = 'day-divider';
-            dayDiv.innerText = dayNames[i];
-            container.appendChild(dayDiv);
+            const prio = document.getElementById('priority-section');
+            if (active) {
+                prio.innerHTML = `<div class="priority-card live"><div style="display:flex;justify-content:space-between"><span>● LIVE</span><span>${active.start}-${active.end}</span></div><h2>${active.name}</h2><div class="meta"><span><i>room</i>${active.room}</span><span><i>person</i>${active.teacher}</span></div></div>`;
+            } else if (next) {
+                const diff = t2m(next.start) - min;
+                prio.innerHTML = `<div class="priority-card"><div style="color:var(--accent-red)">შემდეგი: ${diff > 60 ? Math.floor(diff/60)+'სთ '+diff%60+'წთ' : diff+'წთ'}-ში</div><h2>${next.name}</h2><div class="meta"><span><i>schedule</i>${next.start}</span><span><i>room</i>${next.room}</span></div></div>`;
+            } else {
+                prio.innerHTML = `<div class="priority-card" style="opacity:0.5;border-left-color:gray">დღეს ლექციები აღარ არის</div>`;
+            }
+        }
 
-            dayEvents.forEach((e, index) => {
-                // ლექციის ბარათი
-                const card = document.createElement('div');
-                card.className = 'event-card';
-                card.innerHTML = `
-                    <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:0.9rem;">
-                        <span>${e.name}</span>
-                        <span style="font-family:'JetBrains Mono'; color:var(--ghost-indigo)">${e.start}</span>
-                    </div>
-                    <div class="meta-info">
-                        <span style="font-size:0.7rem; color:rgba(255,255,255,0.4)">${e.type}</span>
-                        <span>${e.room} აუდიტორია</span>
-                    </div>
-                `;
-                container.appendChild(card);
-
-                // შესვენების ლოგიკა
-                if (showBreaks && index < dayEvents.length - 1) {
-                    const currentEnd = timeToMin(e.end);
-                    const nextStart = timeToMin(dayEvents[index+1].start);
-                    const gap = nextStart - currentEnd;
-
-                    if (gap >= 10) {
-                        const breakCard = document.createElement('div');
-                        breakCard.className = 'event-card break';
-                        breakCard.innerHTML = `
-                            <div style="display:flex; align-items:center; gap:10px; font-size:0.8rem; color:#94a3b8">
-                                <span class="material-icons" style="font-size:16px">coffee</span>
-                                შესვენება: ${gap >= 60 ? Math.floor(gap/60) + " სთ " + (gap%60 > 0 ? gap%60 + " წთ" : "") : gap + " წთ"}
-                            </div>
-                        `;
-                        container.appendChild(breakCard);
+        function renderUI() {
+            const cont = document.getElementById('full-schedule'); cont.innerHTML = '';
+            for (let d = 1; d <= 6; d++) {
+                const dayEvents = scheduleData.filter(e => e.day === d).sort((a,b) => t2m(a.start) - t2m(b.start));
+                if (!dayEvents.length) continue;
+                const sep = document.createElement('div'); sep.className = 'day-sep'; sep.innerText = days[d]; cont.appendChild(sep);
+                dayEvents.forEach((e, i) => {
+                    const card = document.createElement('div'); card.className = 'event-card';
+                    card.innerHTML = `<div style="display:flex;justify-content:space-between"><h3>${e.name}</h3><span style="color:var(--indigo);font-family:monospace">${e.start}</span></div><div class="meta"><span><i>label</i>${e.type}</span><span><i>place</i>${e.room}</span></div>`;
+                    cont.appendChild(card);
+                    if (showBreaks && i < dayEvents.length - 1) {
+                        const gap = t2m(dayEvents[i+1].start) - t2m(e.end);
+                        if (gap >= 10) {
+                            const bc = document.createElement('div'); bc.className = 'break-card';
+                            bc.innerText = `შესვენება: ${gap >= 60 ? Math.floor(gap/60)+'სთ '+gap%60+'წთ' : gap+'წთ'}`;
+                            cont.appendChild(bc);
+                        }
                     }
-                }
-            });
+                });
+            }
         }
-    }
 
-    // სტარტი
-    setInterval(updateApp, 1000);
-    updateApp();
-    renderFullSchedule();
-
-    // PWA Service Worker (იმისთვის რომ ოფლაინში იმუშაოს)
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw.js').catch(() => { /* Silent */ });
-        });
-    }
-</script>
+        setInterval(updateTime, 1000); updateTime(); renderUI();
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(()=>{});
+        }
+    </script>
 </body>
 </html>
